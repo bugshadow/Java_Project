@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventaire.controllers.DashboardController" stylesheets="@../css/global.css, @../css/dashboard.css" styleClass="dashboard-root">
+    
+    <!-- Sidebar fixe -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="220" spacing="10">
+            <Label text="INVENTAIRE" styleClass="title" />
+            <Label fx:id="labelUtilisateur" text="Utilisateur" styleClass="user-info" wrapText="true" />
+            
+            <Separator style="-fx-background-color: transparent;" />
+            
+            <Button text="📊 Tableau de bord" styleClass="menu-button, active" maxWidth="Infinity" />
+            <Button text="📦 Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
+            <Button text="🔄 Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
+            <Button text="📜 Historique" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersHistorique" />
+            <Button text="⚠️ Alertes" fx:id="btnMenuAlertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
+            <Button text="📈 Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
+            
+            <Region VBox.vgrow="ALWAYS" />
+            <Button text="Deconnexion" styleClass="logout-button" maxWidth="Infinity" onAction="#deconnecter" />
+        </VBox>
+    </left>
+    
+    <!-- Contenu principal -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox styleClass="main-content" spacing="20">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Tableau de bord" styleClass="page-title" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="labelHeure" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                </HBox>
+                
+                <!-- Cartes metriques -->
+                <HBox spacing="20">
+                    <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                        <Label text="PRODUITS ACTIFS" styleClass="metric-title" />
+                        <HBox alignment="CENTER_LEFT">
+                            <Label fx:id="lblTotalProduits" text="0" styleClass="metric-value" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label text="📦" styleClass="metric-icon" />
+                        </HBox>
+                    </VBox>
+                    
+                    <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                        <Label text="VALEUR DU STOCK" styleClass="metric-title" />
+                        <HBox alignment="CENTER_LEFT">
+                            <Label fx:id="lblValeurStock" text="0 €" styleClass="metric-value" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label text="💰" styleClass="metric-icon" />
+                        </HBox>
+                    </VBox>
+                    
+                    <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                        <Label text="TRANSACTIONS (AUJ.)" styleClass="metric-title" />
+                        <HBox alignment="CENTER_LEFT">
+                            <Label fx:id="lblTransactionsAuj" text="0" styleClass="metric-value" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label text="🔄" styleClass="metric-icon" />
+                        </HBox>
+                    </VBox>
+                    
+                    <VBox styleClass="metric-card, alert-card" HBox.hgrow="ALWAYS">
+                        <Label text="ALERTES CRITIQUES" styleClass="metric-title" />
+                        <HBox alignment="CENTER_LEFT">
+                            <Label fx:id="lblAlertes" text="0" styleClass="metric-value, alert-metric-value" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label text="⚠️" styleClass="metric-icon" style="-fx-text-fill: #f44336;" />
+                        </HBox>
+                    </VBox>
+                </HBox>
+                
+                <!-- Tableaux de bord -->
+                <HBox spacing="20">
+                    <VBox styleClass="card" HBox.hgrow="ALWAYS" prefWidth="500">
+                        <Label text="Dernieres Transactions" styleClass="table-title" />
+                        <TableView fx:id="tableTransactions" prefHeight="200" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="colDate" text="Heure" prefWidth="120" />
+                                <TableColumn fx:id="colProduit" text="Produit" prefWidth="150" />
+                                <TableColumn fx:id="colType" text="Type" prefWidth="100" />
+                                <TableColumn fx:id="colQte" text="Qte" prefWidth="70" />
+                                <TableColumn fx:id="colStatut" text="Blockchain" prefWidth="100" />
+                            </columns>
+                        </TableView>
+                    </VBox>
+                    
+                    <VBox styleClass="card" HBox.hgrow="ALWAYS" prefWidth="500">
+                        <Label text="Produits en Alerte" styleClass="table-title" style="-fx-text-fill: #d32f2f;" />
+                        <TableView fx:id="tableAlertes" prefHeight="200" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="colAlerteRef" text="Reference" prefWidth="100" />
+                                <TableColumn fx:id="colAlerteNom" text="Produit" prefWidth="180" />
+                                <TableColumn fx:id="colAlerteStock" text="Stock" prefWidth="80" />
+                                <TableColumn fx:id="colAlerteSeuil" text="Seuil" prefWidth="80" />
+                            </columns>
+                        </TableView>
+                        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                            <Button text="Voir toutes les alertes" styleClass="button-secondary" onAction="#allerVersAlertes" />
+                        </HBox>
+                    </VBox>
+                </HBox>
+                
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

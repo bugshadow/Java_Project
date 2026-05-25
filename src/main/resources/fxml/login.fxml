@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane fx:id="rootPane" styleClass="login-root" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventaire.controllers.LoginController">
+
+    <VBox maxWidth="400" maxHeight="450" styleClass="login-card" alignment="CENTER" spacing="20">
+        
+        <Label text="INVENTAIRE" styleClass="login-title" />
+        <Label text="Blockchain Secured" styleClass="login-subtitle" />
+        
+        <VBox spacing="15" prefWidth="320">
+            <TextField fx:id="champEmail" promptText="Adresse email" styleClass="login-field" />
+            
+            <StackPane alignment="CENTER_RIGHT">
+                <PasswordField fx:id="champMotDePasse" promptText="Mot de passe" styleClass="login-field" prefWidth="320" />
+                <TextField fx:id="champMotDePasseVisible" promptText="Mot de passe" styleClass="login-field" visible="false" managed="false" prefWidth="320" />
+                <!-- Un bouton oeil simple -->
+                <ToggleButton fx:id="btnAfficherMdp" text="👁" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: #7f8c8d;" />
+            </StackPane>
+            
+            <Label fx:id="labelErreur" styleClass="login-error" wrapText="true" />
+            
+            <Button fx:id="btnConnexion" text="Se connecter" styleClass="login-button" prefWidth="320" onAction="#handleConnexion" />
+            
+            <ProgressIndicator fx:id="progressIndicator" visible="false" />
+        </VBox>
+        
+    </VBox>
+
+</StackPane>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventaire.controllers.HistoriqueController" stylesheets="@../css/global.css">
+    
+    <left>
+        <VBox styleClass="sidebar" prefWidth="220" spacing="10">
+            <Label text="INVENTAIRE" styleClass="title" />
+            <Label fx:id="labelUtilisateur" text="Utilisateur" styleClass="user-info" wrapText="true" />
+            <Separator style="-fx-background-color: transparent;" />
+            <Button text="📊 Tableau de bord" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersDashboard" />
+            <Button text="📦 Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
+            <Button text="🔄 Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
+            <Button text="📜 Historique" styleClass="menu-button, active" maxWidth="Infinity" />
+            <Button text="⚠️ Alertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
+            <Button text="📈 Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button text="Deconnexion" styleClass="logout-button" maxWidth="Infinity" onAction="#deconnecter" />
+        </VBox>
+    </left>
+    
+    <center>
+        <VBox styleClass="main-content" spacing="20">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Historique Blockchain" styleClass="page-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Verifier Integrite du Bloc Selectionne" styleClass="button-secondary" onAction="#verifierIntegriteBloc" />
+            </HBox>
+            
+            <!-- Filtres -->
+            <HBox spacing="15" alignment="CENTER_LEFT" styleClass="card">
+                <DatePicker fx:id="dateDebut" promptText="Du..." styleClass="date-picker" prefWidth="130" />
+                <DatePicker fx:id="dateFin" promptText="Au..." styleClass="date-picker" prefWidth="130" />
+                <ComboBox fx:id="comboType" promptText="Tous les types" styleClass="combo-box" prefWidth="150" />
+                <TextField fx:id="champRecherche" promptText="Recherche produit/ID..." styleClass="text-field" HBox.hgrow="ALWAYS" />
+                <Button text="Filtrer" styleClass="button-primary" onAction="#filtrerHistorique" />
+                <Button text="Reinitialiser" styleClass="button-secondary" onAction="#reinitialiserFiltres" />
+            </HBox>
+            
+            <!-- Tableau -->
+            <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tableHistorique" VBox.vgrow="ALWAYS" styleClass="table-view">
+                    <columns>
+                        <TableColumn fx:id="colDate" text="Date/Heure" prefWidth="140" />
+                        <TableColumn fx:id="colTxId" text="ID Blockchain" prefWidth="160" />
+                        <TableColumn fx:id="colType" text="Type" prefWidth="100" />
+                        <TableColumn fx:id="colProduit" text="Produit" prefWidth="180" />
+                        <TableColumn fx:id="colQte" text="Qte" prefWidth="70" />
+                        <TableColumn fx:id="colOperateur" text="Operateur" prefWidth="120" />
+                        <TableColumn fx:id="colStatut" text="Statut DB" prefWidth="100" />
+                    </columns>
+                </TableView>
+            </VBox>
+            
+            <!-- Resultat de verification -->
+            <VBox fx:id="boxVerification" styleClass="card" visible="false" managed="false">
+                <Label text="Resultat de verification cryptographique (SHA-256)" styleClass="card-title" />
+                <Label fx:id="lblResultatVerification" style="-fx-font-family: monospace; -fx-font-size: 13px;" wrapText="true" />
+            </VBox>
+            
+        </VBox>
+    </center>
+</BorderPane>

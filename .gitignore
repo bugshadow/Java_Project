@@ -1,0 +1,18 @@
+# Fichiers compilés
+target/
+*.class
+
+# Fichiers sensibles et variables d'environnement
+.env
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# Exports générés
+exports/

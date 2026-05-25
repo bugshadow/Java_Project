@@ -1,0 +1,64 @@
+/* ================================================================
+   Style de l'Écran de Connexion (Login)
+================================================================ */
+
+.login-root {
+    -fx-background-color: linear-gradient(to bottom right, #1a237e, #3949ab);
+    -fx-alignment: center;
+}
+
+.login-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 5);
+}
+
+.login-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a237e;
+    -fx-alignment: center;
+}
+
+.login-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+    -fx-alignment: center;
+    -fx-padding: 0 0 20 0;
+}
+
+.login-field {
+    -fx-background-color: #f5f6fa;
+    -fx-border-color: transparent transparent #ced4da transparent;
+    -fx-border-width: 2;
+    -fx-background-radius: 5 5 0 0;
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+}
+
+.login-field:focused {
+    -fx-border-color: transparent transparent #1a237e transparent;
+    -fx-background-color: #e8eaf6;
+}
+
+.login-button {
+    -fx-background-color: #1a237e;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 12;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: #283593;
+}
+
+.login-error {
+    -fx-text-fill: #d32f2f;
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
+    -fx-alignment: center;
+}

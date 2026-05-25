@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventaire.controllers.ProduitsController" stylesheets="@../css/global.css">
+    
+    <!-- Sidebar fixe (identique au dashboard) -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="220" spacing="10">
+            <Label text="INVENTAIRE" styleClass="title" />
+            <Label fx:id="labelUtilisateur" text="Utilisateur" styleClass="user-info" wrapText="true" />
+            <Separator style="-fx-background-color: transparent;" />
+            <Button text=" Tableau de bord" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersDashboard" />
+            <Button text=" Produits" styleClass="menu-button, active" maxWidth="Infinity" />
+            <Button text=" Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
+            <Button text=" Historique" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersHistorique" />
+            <Button text=" Alertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
+            <Button text="📈 Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button text="Deconnexion" styleClass="logout-button" maxWidth="Infinity" onAction="#deconnecter" />
+        </VBox>
+    </left>
+    
+    <!-- Contenu principal -->
+    <center>
+        <VBox styleClass="main-content" spacing="20">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Gestion des Produits" styleClass="page-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="+ Nouveau Produit" styleClass="button-primary" onAction="#ouvrirDialogNouveauProduit" />
+            </HBox>
+            
+            <!-- Filtres -->
+            <HBox spacing="15" alignment="CENTER_LEFT" styleClass="card">
+                <TextField fx:id="champRecherche" promptText="Rechercher (Ref, Nom)..." prefWidth="250" styleClass="text-field" />
+                <Button text="Filtrer" styleClass="button-secondary" onAction="#filtrerProduits" />
+                <Button text="Reinitialiser" styleClass="button-secondary" onAction="#reinitialiserFiltres" />
+            </HBox>
+            
+            <!-- Tableau des produits -->
+            <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tableProduits" VBox.vgrow="ALWAYS" styleClass="table-view">
+                    <columns>
+                        <TableColumn fx:id="colReference" text="Reference" prefWidth="120" />
+                        <TableColumn fx:id="colNom" text="Nom" prefWidth="200" />
+                        <TableColumn fx:id="colCategorie" text="Categorie" prefWidth="150" />
+                        <TableColumn fx:id="colPrix" text="Prix U." prefWidth="80" />
+                        <TableColumn fx:id="colStock" text="Stock Total" prefWidth="100" />
+                        <TableColumn fx:id="colStatut" text="Statut" prefWidth="100" />
+                        <TableColumn fx:id="colActions" text="Actions" prefWidth="100" />
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
