@@ -1,5 +1,5 @@
--- ============================================================
--- Schéma PostgreSQL — Application Inventaire Blockchain
+﻿-- ============================================================
+-- Schema PostgreSQL - Application Inventaire Blockchain
 -- Version : 1.0.0
 -- Base     : inventaire_db
 -- ============================================================
@@ -65,7 +65,7 @@ CREATE TABLE produits (
     nom                         VARCHAR(200)   NOT NULL,
     description                 TEXT,
     categorie_id                UUID           REFERENCES categories(id),
-    unite_mesure                VARCHAR(50)    NOT NULL DEFAULT 'unité',
+    unite_mesure                VARCHAR(50)    NOT NULL DEFAULT 'unite',
     seuil_critique              INTEGER        NOT NULL DEFAULT 10,
     seuil_reapprovisionnement   INTEGER        NOT NULL DEFAULT 20,
     prix_unitaire               DECIMAL(10,2),
@@ -77,7 +77,7 @@ CREATE TABLE produits (
 );
 
 -- ============================================================
--- Table stock actuel (snapshot rapide par entrepôt)
+-- Table stock actuel (snapshot rapide par entrepot)
 -- ============================================================
 CREATE TABLE stock_actuel (
     produit_id  UUID      REFERENCES produits(id)  NOT NULL,
@@ -137,36 +137,36 @@ CREATE INDEX idx_logs_connexion_date     ON logs_connexion(heure DESC);
 CREATE INDEX idx_utilisateurs_email      ON utilisateurs(email);
 
 -- ============================================================
--- Données initiales
+-- Donnees initiales
 -- ============================================================
 
--- Catégories par défaut
+-- Categories par defaut
 INSERT INTO categories (nom, description) VALUES
-    ('Électronique',        'Matériel électronique et informatique'),
+    ('electronique',        'Materiel electronique et informatique'),
     ('Consommables',        'Fournitures et consommables bureau'),
-    ('Outillage',           'Outils et équipements atelier'),
-    ('Matières premières',  'Matières premières pour production'),
-    ('Produits finis',      'Produits prêts à la livraison');
+    ('Outillage',           'Outils et equipements atelier'),
+    ('Matieres premieres',  'Matieres premieres pour production'),
+    ('Produits finis',      'Produits prets à la livraison');
 
--- Entrepôt principal par défaut
+-- Entrepot principal par defaut
 INSERT INTO entrepots (nom, adresse) VALUES
-    ('Entrepôt Principal', '1 Rue de l''Industrie, 75001 Paris'),
-    ('Entrepôt Secondaire', '2 Avenue du Commerce, 69001 Lyon');
+    ('Entrepot Principal', '1 Rue de l''Industrie, 75001 Paris'),
+    ('Entrepot Secondaire', '2 Avenue du Commerce, 69001 Lyon');
 
--- Compte administrateur système
+-- Compte administrateur systeme
 -- Mot de passe : Admin@1234 (BCrypt $2a$12$)
 -- IMPORTANT : remplacer le hash par un vrai hash BCrypt en production
 INSERT INTO utilisateurs (nom, prenom, email, password_hash, role, premier_login)
 VALUES (
     'Admin',
-    'Système',
+    'Systeme',
     'admin@inventaire.com',
     '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewJyoui/R6VoCPuO',
     'ADMIN',
     false
 );
 
--- Utilisateur gestionnaire de démonstration
+-- Utilisateur gestionnaire de demonstration
 -- Mot de passe : Gestionnaire@1234
 INSERT INTO utilisateurs (nom, prenom, email, password_hash, role)
 VALUES (
@@ -177,52 +177,52 @@ VALUES (
     'GESTIONNAIRE'
 );
 
--- Produits de démonstration
+-- Produits de demonstration
 INSERT INTO produits (reference, nom, description, categorie_id, seuil_critique, seuil_reapprovisionnement, prix_unitaire)
 SELECT
     'PROD-001',
     'Ordinateur portable Dell',
-    'Dell Latitude 5540 — i5/16Go/512SSD',
+    'Dell Latitude 5540 - i5/16Go/512SSD',
     id, 2, 5, 899.99
-FROM categories WHERE nom = 'Électronique';
+FROM categories WHERE nom = 'electronique';
 
 INSERT INTO produits (reference, nom, description, categorie_id, seuil_critique, seuil_reapprovisionnement, prix_unitaire)
 SELECT
     'PROD-002',
     'Ramette papier A4',
-    '500 feuilles 80g/m²',
+    '500 feuilles 80g/m2',
     id, 10, 30, 4.99
 FROM categories WHERE nom = 'Consommables';
 
 INSERT INTO produits (reference, nom, description, categorie_id, seuil_critique, seuil_reapprovisionnement, prix_unitaire)
 SELECT
     'PROD-003',
-    'Clavier mécanique',
+    'Clavier mecanique',
     'Clavier Cherry MX Blue USB',
     id, 5, 10, 79.99
-FROM categories WHERE nom = 'Électronique';
+FROM categories WHERE nom = 'electronique';
 
--- Stock initial de démonstration
+-- Stock initial de demonstration
 INSERT INTO stock_actuel (produit_id, entrepot_id, quantite)
 SELECT p.id, e.id, 15
 FROM produits p, entrepots e
-WHERE p.reference = 'PROD-001' AND e.nom = 'Entrepôt Principal';
+WHERE p.reference = 'PROD-001' AND e.nom = 'Entrepot Principal';
 
 INSERT INTO stock_actuel (produit_id, entrepot_id, quantite)
 SELECT p.id, e.id, 8
 FROM produits p, entrepots e
-WHERE p.reference = 'PROD-001' AND e.nom = 'Entrepôt Secondaire';
+WHERE p.reference = 'PROD-001' AND e.nom = 'Entrepot Secondaire';
 
 INSERT INTO stock_actuel (produit_id, entrepot_id, quantite)
 SELECT p.id, e.id, 25
 FROM produits p, entrepots e
-WHERE p.reference = 'PROD-002' AND e.nom = 'Entrepôt Principal';
+WHERE p.reference = 'PROD-002' AND e.nom = 'Entrepot Principal';
 
 INSERT INTO stock_actuel (produit_id, entrepot_id, quantite)
 SELECT p.id, e.id, 3
 FROM produits p, entrepots e
-WHERE p.reference = 'PROD-003' AND e.nom = 'Entrepôt Principal';
+WHERE p.reference = 'PROD-003' AND e.nom = 'Entrepot Principal';
 
 -- ============================================================
--- Fin du schéma
+-- Fin du schema
 -- ============================================================

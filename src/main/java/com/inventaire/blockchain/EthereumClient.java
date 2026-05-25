@@ -1,17 +1,22 @@
 package com.inventaire.blockchain;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.RawTransactionManager;
 import org.web3j.tx.TransactionManager;
-import org.web3j.tx.gas.ContractGasProvider;
-import org.web3j.tx.gas.StaticGasProvider;
 
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class EthereumClient {
     private static final Logger LOG = LoggerFactory.getLogger(EthereumClient.class);
@@ -19,9 +24,8 @@ public class EthereumClient {
     private static EthereumClient instance;
     private Web3j web3j;
     private Credentials credentials;
-    // Replace this with your actual contract address after deploying
-    private String contractAddress = "0xYOUR_CONTRACT_ADDRESS_HERE";
-    // private InventaireContract contract;  // COMMENTED OUT FOR NOW until Web3j wrapper is generated
+    private TransactionManager txManager;
+    private String contractAddress;
 
     private EthereumClient() {
         init();
@@ -36,30 +40,76 @@ public class EthereumClient {
 
     private void init() {
         try {
-            // Sepolia RPC URL (e.g., from Infura or Alchemy)
-            String rpcUrl = "https://sepolia.infura.io/v3/bc1cccecccb149b5ae7d9d06bde0d1cc"; // Example public key, better to use your own
-            web3j = Web3j.build(new HttpService(rpcUrl));
+            Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
             
-            // Your MetaMask private key (Make sure account has Sepolia ETH)
-            String privateKey = "YOUR_PRIVATE_KEY_HERE";
+            String rpcUrl = dotenv.get("ETH_NODE_URL");
+            String privateKey = dotenv.get("WALLET_PRIVATE_KEY");
+            this.contractAddress = dotenv.get("CONTRACT_ADDRESS");
+
+            if(rpcUrl == null || privateKey == null || contractAddress == null) {
+                LOG.error("Configuration Ethereum manquante dans le fichier .env !");
+                return;
+            }
+
+            // Init Web3j
+            web3j = Web3j.build(new HttpService(rpcUrl));
             credentials = Credentials.create(privateKey);
             
-            long chainId = 11155111; // Sepolia
-            TransactionManager txManager = new RawTransactionManager(web3j, credentials, chainId);
-            
-            ContractGasProvider gasProvider = new StaticGasProvider(
-                    BigInteger.valueOf(2000000000L), // gas price
-                    BigInteger.valueOf(3000000L)     // gas limit
-            );
+            long chainId = 11155111; // Sepolia Testnet ID
+            txManager = new RawTransactionManager(web3j, credentials, chainId);
 
-            // The contract wrapper class will be generated from Solidity
-            // contract = InventaireContract.load(contractAddress, web3j, txManager, gasProvider);
-
-            LOG.info("✅ Connected to Ethereum Sepolia Testnet");
+            LOG.info("Connecte a Ethereum Sepolia Testnet avec succes.");
         } catch (Exception e) {
-            LOG.error("❌ Failed to connect to Ethereum", e);
+            LOG.error("Erreur de connexion a Ethereum: " + e.getMessage());
         }
     }
-    
-    // public InventaireContract getContract() { return contract; }
+
+    /**
+     * Envoie la transaction directement sur Sepolia sans wrapper genere.
+     */
+    public String validerTransactionSurReseau(String txId, String productRef, String txType, int quantite, String userEmail) throws Exception {
+        if(web3j == null || credentials == null) {
+            throw new Exception("Le client Ethereum n'est pas configure ou connecte.");
+        }
+
+        LOG.info("Envoi de la transaction {} sur Sepolia...", txId);
+
+        // Definition de la fonction 'recordTransaction' du Smart Contract (ABI)
+        Function function = new Function(
+            "recordTransaction", 
+            Arrays.asList(
+                new Utf8String(txId), 
+                new Utf8String(productRef), 
+                new Utf8String(txType), 
+                new Uint256(BigInteger.valueOf(quantite)), 
+                new Utf8String(userEmail)
+            ), 
+            Collections.emptyList()
+        );
+
+        // Encodage des donnees pour l'EVM
+        String encodedFunction = FunctionEncoder.encode(function);
+
+        // Limites de gas standards pour un testnet
+        BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
+        BigInteger gasLimit = BigInteger.valueOf(3000000L);
+
+        // Envoyer la transaction !
+        EthSendTransaction ethSendTx = txManager.sendTransaction(
+            gasPrice,
+            gasLimit,
+            contractAddress,
+            encodedFunction,
+            BigInteger.ZERO
+        );
+
+        if (ethSendTx.hasError()) {
+            throw new Exception("Erreur EVM: " + ethSendTx.getError().getMessage());
+        }
+
+        String transactionHash = ethSendTx.getTransactionHash();
+        LOG.info("Transaction envoyee au reseau ! TX Hash: {}", transactionHash);
+        
+        return transactionHash;
+    }
 }

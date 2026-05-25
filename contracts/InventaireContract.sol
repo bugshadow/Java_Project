@@ -39,7 +39,13 @@ contract InventaireContract {
         string memory _user
     ) public {
         Product storage prod = products[_productReference];
-        require(bytes(prod.productRef).length > 0, "Product does not exist");
+        
+        // Initialisation automatique du produit s'il n'existe pas encore
+        if (bytes(prod.productRef).length == 0) {
+            prod.productRef = _productReference;
+            prod.name = "Produit Auto-genere";
+            prod.quantity = 0;
+        }
         
         if (keccak256(abi.encodePacked(_transactionType)) == keccak256(abi.encodePacked("ENTREE"))) {
             prod.quantity += _quantity;

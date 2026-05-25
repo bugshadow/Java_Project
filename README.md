@@ -130,3 +130,6 @@ eference est devenu un mot-cle reserve dans le langage Solidity (pour manipuler 
 ### 3. Problemes d'Encodages (Caracteres avec accents)
 **Le Probleme :** Sur l'invite de commande Windows et Powershell, la compilation Maven ou via javac provoquait des alertes de caracteres illisibles a cause des �, �, ou � incrustes dans le code Java ou meme d'erreurs d'encodage lors de la saisie via CLI.
 **La Solution :** Tous les fichiers source (MainApp.java, HistoriqueController.java, TransactionController.java) ainsi que ce README.md ont ete entierement nettoyes pour remplacer les accents par des caracteres standard ascii (ex: e, a), supprimant la cause initiale des erreurs.
+### 4. Probleme EVM Error: Product does not exist
+**Le probleme :** Sur le testnet, une transaction via WebWait/Web3j renvoyait une erreur Revert : "Product does not exist" lorsqu'on tentait de decrementer un statut sur un nouveau produit, car il n'etait pas initialise avant.
+**La solution :** Une initialisation paresseuse (lazy init) au sein de InventaireContract.sol (via verif bytes(prod.productRef).length == 0). Plus besoin d'invoquer specifiquement un enregistrement externe pour initialiser une reférence !

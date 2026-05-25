@@ -365,24 +365,27 @@ public class BlockchainService {
     // ================================================================
 
     /**
-     * Soumet une transaction sur la blockchain via ChaincodeInvoker.
+     * Soumet une transaction sur la blockchain (Ethereum Testnet).
      */
     private String soumettreSurBlockchain(String txId, String type, UUID produitId,
                                            int quantite, int quantiteAvant, int quantiteApres,
                                            UUID operateurId, UUID entrepotSource,
                                            UUID entrepotDest, String metadataJson) {
         try {
-            // Placeholder: Call your Ethereum contract here when the wrapper is generated.
-            // i.e., ethereumClient.getContract().recordTransaction(...)
-            // For now, we simulate success so it compiles.
-            String reponseJson = "{\"txId\": \"" + txId + "\"}";
+            // Appel direct au client Ethereum pour enregistrer la transaction sur Sepolia
+            String transactionHash = ethereumClient.validerTransactionSurReseau(
+                txId,
+                produitId.toString(),
+                type,
+                quantite,
+                operateurId.toString()
+            );
 
-            // Extraire l'ID de transaction de la réponse
-            JsonObject reponse = gson.fromJson(reponseJson, JsonObject.class);
-            return reponse.has("txId") ? reponse.get("txId").getAsString() : txId;
+            LOG.info("Transaction envoyee a Sepolia avec le txHash: {}", transactionHash);
+            return transactionHash; // Retourne le vrai hash de la Blockchain (0x...)
 
         } catch (Exception e) {
-            LOG.error("❌ Échec soumission blockchain : {}", e.getMessage());
+            LOG.error("❌ Echec soumission blockchain : {}", e.getMessage());
             throw new RuntimeException("Erreur blockchain : " + e.getMessage(), e);
         }
     }
