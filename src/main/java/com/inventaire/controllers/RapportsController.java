@@ -60,7 +60,7 @@ public class RapportsController {
         String chemin = "exports/Etat_Stocks_" + DateUtil.formaterPourFichier(LocalDateTime.now()) + extension;
 
         setEnChargement(true);
-        labelMessage.setText("Génération en cours...");
+        labelMessage.setText("Generation en cours...");
         labelMessage.setStyle("-fx-text-fill: #1a237e;");
 
         Task<Void> task = new Task<>() {
@@ -77,13 +77,13 @@ public class RapportsController {
 
         task.setOnSucceeded(e -> {
             setEnChargement(false);
-            labelMessage.setText("✅ Rapport généré avec succès : " + new File(chemin).getAbsolutePath());
+            labelMessage.setText("Rapport genere avec succes : " + new File(chemin).getAbsolutePath());
             labelMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
         });
 
         task.setOnFailed(e -> {
             setEnChargement(false);
-            labelMessage.setText("❌ Erreur lors de la génération : " + task.getException().getMessage());
+            labelMessage.setText("Erreur lors de la generation : " + task.getException().getMessage());
             labelMessage.setStyle("-fx-text-fill: #d32f2f;");
             task.getException().printStackTrace();
         });
@@ -97,7 +97,7 @@ public class RapportsController {
         LocalDate fin = dateFin.getValue();
         
         if (debut == null || fin == null) {
-            labelMessage.setText("Veuillez sélectionner les dates de début et de fin.");
+            labelMessage.setText("Veuillez selectionner les dates de debut et de fin.");
             labelMessage.setStyle("-fx-text-fill: #d32f2f;");
             return;
         }
@@ -107,7 +107,7 @@ public class RapportsController {
         String chemin = "exports/Mouvements_" + DateUtil.formaterPourFichier(LocalDateTime.now()) + extension;
 
         setEnChargement(true);
-        labelMessage.setText("Récupération des données et génération en cours...");
+        labelMessage.setText("Recuperation des donnees et generation en cours...");
         labelMessage.setStyle("-fx-text-fill: #1a237e;");
 
         Task<Void> task = new Task<>() {
@@ -125,13 +125,13 @@ public class RapportsController {
 
         task.setOnSucceeded(e -> {
             setEnChargement(false);
-            labelMessage.setText("✅ Rapport généré avec succès : " + new File(chemin).getAbsolutePath());
+            labelMessage.setText("Rapport genere avec succes : " + new File(chemin).getAbsolutePath());
             labelMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
         });
 
         task.setOnFailed(e -> {
             setEnChargement(false);
-            labelMessage.setText("❌ Erreur : " + task.getException().getMessage());
+            labelMessage.setText("Erreur : " + task.getException().getMessage());
             labelMessage.setStyle("-fx-text-fill: #d32f2f;");
         });
 

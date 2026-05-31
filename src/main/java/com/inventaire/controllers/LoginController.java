@@ -99,7 +99,7 @@ public class LoginController {
 
         task.setOnFailed(e -> {
             setEnChargement(false);
-            afficherErreur("Erreur de connexion à la base de données.");
+            afficherErreur("Erreur de connexion a la base de donnees.");
             task.getException().printStackTrace();
         });
 

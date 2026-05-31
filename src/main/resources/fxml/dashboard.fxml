@@ -15,12 +15,12 @@
             
             <Separator style="-fx-background-color: transparent;" />
             
-            <Button text="📊 Tableau de bord" styleClass="menu-button, active" maxWidth="Infinity" />
-            <Button text="📦 Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
-            <Button text="🔄 Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
-            <Button text="📜 Historique" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersHistorique" />
-            <Button text="⚠️ Alertes" fx:id="btnMenuAlertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
-            <Button text="📈 Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
+            <Button text="Tableau de bord" styleClass="menu-button, active" maxWidth="Infinity" />
+            <Button text="Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
+            <Button text="Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
+            <Button text="Historique" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersHistorique" />
+            <Button text="Alertes" fx:id="btnMenuAlertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
+            <Button text="Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
             
             <Region VBox.vgrow="ALWAYS" />
             <Button text="Deconnexion" styleClass="logout-button" maxWidth="Infinity" onAction="#deconnecter" />
@@ -44,16 +44,16 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label fx:id="lblTotalProduits" text="0" styleClass="metric-value" />
                             <Region HBox.hgrow="ALWAYS" />
-                            <Label text="📦" styleClass="metric-icon" />
+                            <Label text="P" styleClass="metric-icon" />
                         </HBox>
                     </VBox>
                     
                     <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
                         <Label text="VALEUR DU STOCK" styleClass="metric-title" />
                         <HBox alignment="CENTER_LEFT">
-                            <Label fx:id="lblValeurStock" text="0 €" styleClass="metric-value" />
+                            <Label fx:id="lblValeurStock" text="0 EUR" styleClass="metric-value" />
                             <Region HBox.hgrow="ALWAYS" />
-                            <Label text="💰" styleClass="metric-icon" />
+                            <Label text="EUR" styleClass="metric-icon" />
                         </HBox>
                     </VBox>
                     
@@ -62,7 +62,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label fx:id="lblTransactionsAuj" text="0" styleClass="metric-value" />
                             <Region HBox.hgrow="ALWAYS" />
-                            <Label text="🔄" styleClass="metric-icon" />
+                            <Label text="TX" styleClass="metric-icon" />
                         </HBox>
                     </VBox>
                     
@@ -71,7 +71,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label fx:id="lblAlertes" text="0" styleClass="metric-value, alert-metric-value" />
                             <Region HBox.hgrow="ALWAYS" />
-                            <Label text="⚠️" styleClass="metric-icon" style="-fx-text-fill: #f44336;" />
+                            <Label text="!" styleClass="metric-icon" style="-fx-text-fill: #f44336;" />
                         </HBox>
                     </VBox>
                 </HBox>

@@ -10,12 +10,12 @@
             <Label text="INVENTAIRE" styleClass="title" />
             <Label fx:id="labelUtilisateur" text="Utilisateur" styleClass="user-info" wrapText="true" />
             <Separator style="-fx-background-color: transparent;" />
-            <Button text="📊 Tableau de bord" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersDashboard" />
-            <Button text="📦 Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
-            <Button text="🔄 Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
-            <Button text="📜 Historique" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersHistorique" />
-            <Button text="⚠️ Alertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
-            <Button text="📈 Rapports" styleClass="menu-button, active" maxWidth="Infinity" />
+            <Button text="Tableau de bord" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersDashboard" />
+            <Button text="Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
+            <Button text="Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
+            <Button text="Historique" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersHistorique" />
+            <Button text="Alertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
+            <Button text="Rapports" styleClass="menu-button, active" maxWidth="Infinity" />
             <Region VBox.vgrow="ALWAYS" />
             <Button text="Deconnexion" styleClass="logout-button" maxWidth="Infinity" onAction="#deconnecter" />
         </VBox>
@@ -23,12 +23,12 @@
     
     <center>
         <VBox styleClass="main-content" spacing="20">
-            <Label text="Generation de Rapports" styleClass="page-title" />
+            <Label text="Generation de rapports" styleClass="page-title" />
             
             <HBox spacing="20">
                 <!-- Rapport etat des Stocks -->
                 <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="15">
-                    <Label text="etat des Stocks Actuel" styleClass="card-title" />
+                    <Label text="Etat des stocks actuel" styleClass="card-title" />
                     <Label text="Genere un instantane complet de tous les produits en stock, classes par entrepot, avec les valeurs et seuils." wrapText="true" style="-fx-text-fill: #7f8c8d;" />
                     
                     <VBox spacing="5">
@@ -42,12 +42,12 @@
                     </VBox>
                     
                     <Region VBox.vgrow="ALWAYS" />
-                    <Button fx:id="btnGenererStock" text="Generer Rapport" styleClass="button-primary" maxWidth="Infinity" onAction="#genererRapportStock" />
+                    <Button fx:id="btnGenererStock" text="Generer rapport" styleClass="button-primary" maxWidth="Infinity" onAction="#genererRapportStock" />
                 </VBox>
                 
                 <!-- Rapport Mouvements -->
                 <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="15">
-                    <Label text="Mouvements et Transactions" styleClass="card-title" />
+                    <Label text="Mouvements et transactions" styleClass="card-title" />
                     <Label text="Exporte l'historique des entrees, sorties et transferts sur une periode donnee." wrapText="true" style="-fx-text-fill: #7f8c8d;" />
                     
                     <HBox spacing="10">
@@ -72,7 +72,7 @@
                     </VBox>
                     
                     <Region VBox.vgrow="ALWAYS" />
-                    <Button fx:id="btnGenererMouvements" text="Generer Rapport" styleClass="button-primary" maxWidth="Infinity" onAction="#genererRapportMouvements" />
+                    <Button fx:id="btnGenererMouvements" text="Generer rapport" styleClass="button-primary" maxWidth="Infinity" onAction="#genererRapportMouvements" />
                 </VBox>
             </HBox>
             

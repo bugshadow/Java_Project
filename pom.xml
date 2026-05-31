@@ -189,6 +189,13 @@
                 </configuration>
             </plugin>
 
+            <!-- Exec Maven Plugin for utility entry points -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.4.1</version>
+            </plugin>
+
             <!-- Jar exécutable avec toutes les dépendances -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

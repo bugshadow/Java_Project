@@ -10,12 +10,12 @@
             <Label text="INVENTAIRE" styleClass="title" />
             <Label fx:id="labelUtilisateur" text="Utilisateur" styleClass="user-info" wrapText="true" />
             <Separator style="-fx-background-color: transparent;" />
-            <Button text="📊 Tableau de bord" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersDashboard" />
-            <Button text="📦 Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
-            <Button text="🔄 Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
-            <Button text="📜 Historique" styleClass="menu-button, active" maxWidth="Infinity" />
-            <Button text="⚠️ Alertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
-            <Button text="📈 Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
+            <Button text="Tableau de bord" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersDashboard" />
+            <Button text="Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
+            <Button text="Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
+            <Button text="Historique" styleClass="menu-button, active" maxWidth="Infinity" />
+            <Button text="Alertes" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersAlertes" />
+            <Button text="Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
             <Region VBox.vgrow="ALWAYS" />
             <Button text="Deconnexion" styleClass="logout-button" maxWidth="Infinity" onAction="#deconnecter" />
         </VBox>
@@ -24,9 +24,9 @@
     <center>
         <VBox styleClass="main-content" spacing="20">
             <HBox alignment="CENTER_LEFT">
-                <Label text="Historique Blockchain" styleClass="page-title" />
+                <Label text="Historique blockchain" styleClass="page-title" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="Verifier Integrite du Bloc Selectionne" styleClass="button-secondary" onAction="#verifierIntegriteBloc" />
+                <Button text="Verifier integrite du bloc selectionne" styleClass="button-secondary" onAction="#verifierIntegriteBloc" />
             </HBox>
             
             <!-- Filtres -->

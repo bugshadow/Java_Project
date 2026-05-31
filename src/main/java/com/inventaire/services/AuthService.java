@@ -15,7 +15,7 @@ import java.util.Optional;
  * <p>Implémente la logique d'authentification avec :
  * <ul>
  *   <li>Vérification BCrypt du mot de passe</li>
- *   <li>Gestion du verrouillage de compte (3 tentatives → 30 min)</li>
+ *   <li>Journalisation de toutes les tentatives dans {@code logs_connexion}</li>
  *   <li>Journalisation de toutes les tentatives dans {@code logs_connexion}</li>
  * </ul>
  *
@@ -51,7 +51,6 @@ public class AuthService {
      * <ol>
      *   <li>Vérification existence de l'email en base</li>
      *   <li>Vérification compte actif</li>
-     *   <li>Vérification compte non verrouillé</li>
      *   <li>Vérification mot de passe BCrypt</li>
      *   <li>Mise à jour des compteurs (succès ou échec)</li>
      *   <li>Journalisation dans logs_connexion</li>
@@ -95,38 +94,16 @@ public class AuthService {
             return Optional.empty();
         }
 
-        // ---- Vérification verrouillage ----
-        if (utilisateur.estVerrouille()) {
-            String minutesRestantes = calculerMinutesVerrouillage(utilisateur);
-            dernierMessageErreur = "Compte temporairement verrouillé. "
-                + "Réessayez dans " + minutesRestantes + " minutes.";
-            enregistrerLog(utilisateur.getId(), email, false, "Compte verrouillé");
-            LOG.warn("Tentative connexion sur compte verrouillé : {}", email);
-            return Optional.empty();
-        }
-
         // ---- Vérification mot de passe BCrypt ----
         boolean motDePasseValide = BCryptUtil.verifier(motDePasse, utilisateur.getPasswordHash());
 
         if (!motDePasseValide) {
             utilisateurDAO.incrementerTentativesEchec(email);
-
-            // Recharger pour obtenir le nombre de tentatives mis à jour
-            optUtilisateur = utilisateurDAO.trouverParEmail(email);
-            int tentatives = optUtilisateur.map(Utilisateur::getTentativesEchec).orElse(0);
-
-            if (tentatives >= 3) {
-                dernierMessageErreur = "Compte verrouillé pour 30 minutes "
-                    + "suite à trop de tentatives échouées.";
-            } else {
-                int restantes = 3 - tentatives;
-                dernierMessageErreur = "Mot de passe incorrect. "
-                    + restantes + " tentative(s) restante(s) avant verrouillage.";
-            }
+            dernierMessageErreur = "Email ou mot de passe incorrect";
 
             enregistrerLog(utilisateur.getId(), email, false,
-                "Mot de passe incorrect (tentative " + tentatives + ")");
-            LOG.warn("Mot de passe incorrect pour {} (tentative {})", email, tentatives);
+                "Mot de passe incorrect");
+            LOG.warn("Mot de passe incorrect pour {}", email);
             return Optional.empty();
         }
 
@@ -238,17 +215,4 @@ public class AuthService {
         }
     }
 
-    /**
-     * Calcule le nombre de minutes restantes avant déverrouillage.
-     */
-    private String calculerMinutesVerrouillage(Utilisateur utilisateur) {
-        if (utilisateur.getVerrouilleJusquAu() == null) return "0";
-
-        long minutes = java.time.temporal.ChronoUnit.MINUTES.between(
-            java.time.LocalDateTime.now(),
-            utilisateur.getVerrouilleJusquAu()
-        );
-
-        return String.valueOf(Math.max(0, minutes));
-    }
 }

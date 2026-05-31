@@ -17,8 +17,7 @@
             <StackPane alignment="CENTER_RIGHT">
                 <PasswordField fx:id="champMotDePasse" promptText="Mot de passe" styleClass="login-field" prefWidth="320" />
                 <TextField fx:id="champMotDePasseVisible" promptText="Mot de passe" styleClass="login-field" visible="false" managed="false" prefWidth="320" />
-                <!-- Un bouton oeil simple -->
-                <ToggleButton fx:id="btnAfficherMdp" text="👁" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: #7f8c8d;" />
+                <ToggleButton fx:id="btnAfficherMdp" text="Voir" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: #7f8c8d;" />
             </StackPane>
             
             <Label fx:id="labelErreur" styleClass="login-error" wrapText="true" />

@@ -30,7 +30,7 @@ CREATE DATABASE inventaire_db;
 
 Executez le script SQL fourni pour creer le schema initial (les tables) :
 ```bash
-psql -U postgres -d inventaire_db -f sql/schema.sql
+psql -U postgres -d inventaire_db -f "c:\path\sql\schema.sql"
 ```
 
 ### 2. Configuration du Portefeuille (MetaMask) et Reseau Sepolia
@@ -75,6 +75,8 @@ WALLET_PRIVATE_KEY=VOTRE_CLE_PRIVEE_METAMASK
 > 2. **Gestionnaire** | Email : `gestionnaire@inventaire.com` | Mot de passe : `User@1234`
 > 3. **Auditeur** | Email : `auditeur@inventaire.com` | Mot de passe : `User@1234`
 
+> Ces comptes sont faits pour les tests et la presentation du projet. Vous pouvez les utiliser directement sans chercher un autre mot de passe.
+
 ### 5. Compilation et lancement de l'application JavaFX
 
 A la racine du projet, executez Maven :
@@ -88,6 +90,21 @@ Ou pour construire un executable complet avec dependances :
 ```bash
 mvn clean package
 ```
+
+### 6. Verification rapide du contrat Ethereum
+
+Pour verifier que le contrat deploye dans Remix correspond bien a ce que l'application attend, lancez le verificateur suivant apres avoir rempli le fichier `.env` :
+
+```bash
+mvn -q -DskipTests exec:java -Dexec.mainClass=com.inventaire.tools.EthereumContractVerifier
+```
+
+Le verificateur controle :
+1. la presence de `ETH_NODE_URL`, `WALLET_PRIVATE_KEY` et `CONTRACT_ADDRESS`
+2. le code reel a l'adresse du contrat
+3. la fonction `recordTransaction(...)` avec un `eth_call` de test sans ecrire sur la blockchain
+
+Si la commande echoue, le probleme vient en general soit du contrat deploye dans Remix, soit du mauvais reseau, soit d'une adresse de contrat incorrecte.
 
 ## Structure du Projet
 

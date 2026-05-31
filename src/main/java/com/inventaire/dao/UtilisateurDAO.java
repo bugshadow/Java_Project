@@ -269,7 +269,9 @@ public class UtilisateurDAO {
     }
 
     /**
-     * Incrémente le compteur de tentatives échouées et verrouille si nécessaire.
+     * Incrémente le compteur de tentatives échouées.
+     *
+     * <p>Le verrouillage automatique est désactivé dans ce projet de test.
      *
      * @param email Email de l'utilisateur
      */
@@ -277,11 +279,7 @@ public class UtilisateurDAO {
         String sql = """
             UPDATE utilisateurs
             SET tentatives_echec = tentatives_echec + 1,
-                verrouille_jusqu_au = CASE
-                    WHEN tentatives_echec + 1 >= 3
-                    THEN NOW() + INTERVAL '30 minutes'
-                    ELSE verrouille_jusqu_au
-                END
+                modifie_le = NOW()
             WHERE email = ?
             """;
 

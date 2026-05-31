@@ -10,12 +10,12 @@
             <Label text="INVENTAIRE" styleClass="title" />
             <Label fx:id="labelUtilisateur" text="Utilisateur" styleClass="user-info" wrapText="true" />
             <Separator style="-fx-background-color: transparent;" />
-            <Button text=" Tableau de bord" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersDashboard" />
-            <Button text=" Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
-            <Button text=" Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
-            <Button text=" Historique" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersHistorique" />
-            <Button text=" Alertes" styleClass="menu-button, active" maxWidth="Infinity" />
-            <Button text=" Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
+            <Button text="Tableau de bord" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersDashboard" />
+            <Button text="Produits" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersProduits" />
+            <Button text="Transactions" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersTransactions" />
+            <Button text="Historique" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersHistorique" />
+            <Button text="Alertes" styleClass="menu-button, active" maxWidth="Infinity" />
+            <Button text="Rapports" styleClass="menu-button" maxWidth="Infinity" onAction="#allerVersRapports" />
             <Region VBox.vgrow="ALWAYS" />
             <Button text="Deconnexion" styleClass="logout-button" maxWidth="Infinity" onAction="#deconnecter" />
         </VBox>
@@ -33,8 +33,8 @@
                 <!-- Alertes Critiques -->
                 <VBox styleClass="card" HBox.hgrow="ALWAYS" style="-fx-border-color: #f44336; -fx-border-width: 0 0 0 4; -fx-border-radius: 4;">
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Label text="⚠️" style="-fx-font-size: 20px; -fx-text-fill: #f44336;" />
-                        <Label text="Rupture Imminente (Critique)" styleClass="card-title" style="-fx-text-fill: #d32f2f;" />
+                        <Label text="!" style="-fx-font-size: 20px; -fx-text-fill: #f44336;" />
+                        <Label text="Rupture imminente (critique)" styleClass="card-title" style="-fx-text-fill: #d32f2f;" />
                         <Region HBox.hgrow="ALWAYS" />
                         <Label fx:id="lblNbCritiques" text="0" styleClass="badge-critique" />
                     </HBox>
@@ -44,19 +44,19 @@
                             <TableColumn fx:id="colCritNom" text="Produit" prefWidth="150" />
                             <TableColumn fx:id="colCritStock" text="Stock" prefWidth="60" />
                             <TableColumn fx:id="colCritSeuil" text="Seuil" prefWidth="60" />
-                            <TableColumn fx:id="colCritEcart" text="ecart" prefWidth="60" />
+                            <TableColumn fx:id="colCritEcart" text="Ecart" prefWidth="60" />
                         </columns>
                     </TableView>
                     <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
-                        <Button text="Generer Bon de Commande" styleClass="button-secondary" disable="true" />
+                        <Button text="Generer bon de commande" styleClass="button-secondary" disable="true" />
                     </HBox>
                 </VBox>
                 
                 <!-- Alertes Faibles -->
                 <VBox styleClass="card" HBox.hgrow="ALWAYS" style="-fx-border-color: #ff9800; -fx-border-width: 0 0 0 4; -fx-border-radius: 4;">
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Label text="⚠️" style="-fx-font-size: 20px; -fx-text-fill: #ff9800;" />
-                        <Label text="a Reapprovisionner (Faible)" styleClass="card-title" style="-fx-text-fill: #f57c00;" />
+                        <Label text="!" style="-fx-font-size: 20px; -fx-text-fill: #ff9800;" />
+                        <Label text="A reapprovisionner (faible)" styleClass="card-title" style="-fx-text-fill: #f57c00;" />
                         <Region HBox.hgrow="ALWAYS" />
                         <Label fx:id="lblNbFaibles" text="0" styleClass="badge-faible" />
                     </HBox>
@@ -66,7 +66,7 @@
                             <TableColumn fx:id="colFaiNom" text="Produit" prefWidth="150" />
                             <TableColumn fx:id="colFaiStock" text="Stock" prefWidth="60" />
                             <TableColumn fx:id="colFaiSeuil" text="Seuil" prefWidth="60" />
-                            <TableColumn fx:id="colFaiEcart" text="ecart" prefWidth="60" />
+                            <TableColumn fx:id="colFaiEcart" text="Ecart" prefWidth="60" />
                         </columns>
                     </TableView>
                 </VBox>

@@ -136,13 +136,13 @@ public class HistoriqueController {
     private void verifierIntegriteBloc() {
         Transaction tx = tableHistorique.getSelectionModel().getSelectedItem();
         if (tx == null || tx.getBlockchainTxId() == null) {
-            afficherErreurVerification("Veuillez sélectionner une transaction confirmée sur la blockchain.");
+            afficherErreurVerification("Veuillez selectionner une transaction confirmee sur la blockchain.");
             return;
         }
 
         boxVerification.setVisible(true);
         boxVerification.setManaged(true);
-        lblResultatVerification.setText("Vérification sur le réseau Hyperledger Fabric en cours...\nID: " + tx.getBlockchainTxId());
+        lblResultatVerification.setText("Verification sur le reseau blockchain en cours...\nID: " + tx.getBlockchainTxId());
         lblResultatVerification.setStyle("-fx-text-fill: #1a237e;");
 
         Task<Map<String, Object>> task = new Task<>() {
@@ -157,7 +157,7 @@ public class HistoriqueController {
             boolean integre = (Boolean) result.getOrDefault("integre", false);
             
             StringBuilder sb = new StringBuilder();
-            sb.append("✓ Vérification terminée.\n");
+            sb.append("Verification terminee.\n");
             sb.append("Message : ").append(result.get("message")).append("\n");
             
             if (result.containsKey("hashCalcule") && result.get("hashCalcule") != null) {
@@ -166,15 +166,15 @@ public class HistoriqueController {
 
             if (integre) {
                 lblResultatVerification.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
-                sb.insert(0, "✅ INTÉGRITÉ GARANTIE\nLa transaction n'a pas été altérée depuis son enregistrement sur le ledger.\n\n");
+                sb.insert(0, "INTEGRITE GARANTIE\nLa transaction n'a pas ete alteree depuis son enregistrement sur le ledger.\n\n");
             } else {
                 lblResultatVerification.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
-                sb.insert(0, "❌ ANOMALIE DÉTECTÉE\nLes données ont potentiellement été altérées.\n\n");
+                sb.insert(0, "ANOMALIE DETECTEE\nLes donnees ont potentiellement ete alterees.\n\n");
             }
             lblResultatVerification.setText(sb.toString());
         });
 
-        task.setOnFailed(e -> afficherErreurVerification("Erreur lors de la vérification : " + task.getException().getMessage()));
+        task.setOnFailed(e -> afficherErreurVerification("Erreur lors de la verification : " + task.getException().getMessage()));
 
         new Thread(task).start();
     }

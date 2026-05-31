@@ -15,6 +15,9 @@ import org.web3j.tx.RawTransactionManager;
 import org.web3j.tx.TransactionManager;
 
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -40,7 +43,7 @@ public class EthereumClient {
 
     private void init() {
         try {
-            Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+            Dotenv dotenv = loadDotenv();
             
             String rpcUrl = dotenv.get("ETH_NODE_URL");
             String privateKey = dotenv.get("WALLET_PRIVATE_KEY");
@@ -62,6 +65,37 @@ public class EthereumClient {
         } catch (Exception e) {
             LOG.error("Erreur de connexion a Ethereum: " + e.getMessage());
         }
+    }
+
+    private Dotenv loadDotenv() {
+        Path currentDir = Paths.get(System.getProperty("user.dir")).toAbsolutePath();
+
+        while (currentDir != null) {
+            Path dotenvPath = currentDir.resolve(".env");
+            if (Files.exists(dotenvPath)) {
+                LOG.info("Using .env from: {}", dotenvPath);
+                return Dotenv.configure()
+                    .directory(currentDir.toString())
+                    .ignoreIfMissing()
+                    .load();
+            }
+
+            Path moduleDir = currentDir.resolve("inventaire-blockchain");
+            Path moduleDotenv = moduleDir.resolve(".env");
+            if (Files.exists(moduleDotenv)) {
+                LOG.info("Using .env from: {}", moduleDotenv);
+                return Dotenv.configure()
+                    .directory(moduleDir.toString())
+                    .ignoreIfMissing()
+                    .load();
+            }
+
+            currentDir = currentDir.getParent();
+        }
+
+        throw new IllegalStateException(
+            ".env not found. Put it in the project root or the inventaire-blockchain module folder."
+        );
     }
 
     /**

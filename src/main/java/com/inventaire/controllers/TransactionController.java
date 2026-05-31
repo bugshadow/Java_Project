@@ -123,7 +123,7 @@ public class TransactionController {
     private void calculerStockDispo() {
         Produit p = comboProduit.getValue();
         if (p == null) {
-            labelStockDispo.setText("Sélectionnez un produit");
+            labelStockDispo.setText("Selectionnez un produit");
             return;
         }
         
@@ -134,7 +134,7 @@ public class TransactionController {
             Entrepot e = comboEntrepotSource.getValue();
             if (e != null) {
                 // Simplification pour l'affichage (nécessite idéalement un appel StockDAO)
-                labelStockDispo.setText("Vérification en cours...");
+                labelStockDispo.setText("Verification en cours...");
                 Task<Integer> t = new Task<>() {
                     @Override protected Integer call() {
                         return new com.inventaire.dao.StockDAO(DatabaseConnection.getInstance())
@@ -144,7 +144,7 @@ public class TransactionController {
                 t.setOnSucceeded(ev -> labelStockDispo.setText(t.getValue() + " dans " + e.getNom()));
                 new Thread(t).start();
             } else {
-                labelStockDispo.setText("Sélectionnez l'entrepôt source");
+                labelStockDispo.setText("Selectionnez l'entrepot source");
             }
         }
     }
@@ -162,8 +162,8 @@ public class TransactionController {
         String tiers = champTiers.getText();
         String doc = champDocument.getText();
 
-        if (type == null) { labelErreur.setText("Sélectionnez un type d'opération"); return; }
-        if (produit == null) { labelErreur.setText("Sélectionnez un produit"); return; }
+        if (type == null) { labelErreur.setText("Selectionnez un type d'operation"); return; }
+        if (produit == null) { labelErreur.setText("Selectionnez un produit"); return; }
         
         String errQte = ValidationUtil.validerQuantite(qteStr);
         if (errQte != null) { labelErreur.setText(errQte); return; }
@@ -178,15 +178,15 @@ public class TransactionController {
             protected String call() throws Exception {
                 return switch (type) {
                     case "ENTREE" -> {
-                        if (dest == null) throw new IllegalArgumentException("Entrepôt destination requis");
+                        if (dest == null) throw new IllegalArgumentException("Entrepot destination requis");
                         yield blockchainService.enregistrerEntree(produit.getId(), quantite, dest.getId(), tiers, doc, operateur);
                     }
                     case "SORTIE" -> {
-                        if (source == null) throw new IllegalArgumentException("Entrepôt source requis");
+                        if (source == null) throw new IllegalArgumentException("Entrepot source requis");
                         yield blockchainService.enregistrerSortie(produit.getId(), quantite, source.getId(), tiers, doc, operateur);
                     }
                     case "TRANSFERT" -> {
-                        if (source == null || dest == null) throw new IllegalArgumentException("Entrepôts source et destination requis");
+                        if (source == null || dest == null) throw new IllegalArgumentException("Entrepots source et destination requis");
                         yield blockchainService.enregistrerTransfert(produit.getId(), quantite, source.getId(), dest.getId(), tiers, operateur);
                     }
                     default -> throw new IllegalArgumentException("Type inconnu");
@@ -197,7 +197,7 @@ public class TransactionController {
         task.setOnSucceeded(e -> {
             setEnChargement(false);
             labelErreur.setStyle("-fx-text-fill: #4caf50; -fx-font-weight: bold;");
-            labelErreur.setText("Succès ! Transaction validée sur la blockchain.\nID : " + task.getValue());
+            labelErreur.setText("Succes ! Transaction validee sur la blockchain.\nID : " + task.getValue());
             effacerFormulaireSansMessage();
         });
 
@@ -223,7 +223,7 @@ public class TransactionController {
         comboEntrepotDest.setValue(null);
         champTiers.clear();
         champDocument.clear();
-        labelStockDispo.setText("Sélectionnez un produit");
+        labelStockDispo.setText("Selectionnez un produit");
     }
 
     private void setEnChargement(boolean enChargement) {

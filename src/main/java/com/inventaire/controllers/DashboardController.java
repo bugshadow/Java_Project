@@ -112,7 +112,7 @@ public class DashboardController {
             protected Void call() {
                 int totalProduits = inventaireService.getNombreProduitsActifs();
                 int transactionsAuj = inventaireService.getTransactionsAujourdhui();
-                // Simulation du calcul de la valeur du stock pour l'affichage (à optimiser via un DAO spécifique si besoin)
+                // Simulation du calcul de la valeur du stock pour l'affichage (a optimiser via un DAO specifique si besoin)
                 double valeurStock = new com.inventaire.dao.StockDAO(DatabaseConnection.getInstance()).getValeurTotaleStock();
                 
                 List<Transaction> dernieresTransactions = inventaireService.getDernieresTransactions(5);
@@ -121,7 +121,7 @@ public class DashboardController {
                 Platform.runLater(() -> {
                     lblTotalProduits.setText(String.valueOf(totalProduits));
                     lblTransactionsAuj.setText(String.valueOf(transactionsAuj));
-                    lblValeurStock.setText(String.format("%.2f €", valeurStock));
+                    lblValeurStock.setText(String.format("%.2f EUR", valeurStock));
                     mettreAJourBadgesAlertes(alertesCritiques.size());
 
                     tableTransactions.setItems(FXCollections.observableArrayList(dernieresTransactions));
@@ -136,10 +136,10 @@ public class DashboardController {
     private void mettreAJourBadgesAlertes(int nbAlertes) {
         lblAlertes.setText(String.valueOf(nbAlertes));
         if (nbAlertes > 0) {
-            btnMenuAlertes.setText("⚠️ Alertes (" + nbAlertes + ")");
+            btnMenuAlertes.setText("Alertes (" + nbAlertes + ")");
             btnMenuAlertes.setStyle("-fx-text-fill: #f44336; -fx-font-weight: bold;");
         } else {
-            btnMenuAlertes.setText("⚠️ Alertes");
+            btnMenuAlertes.setText("Alertes");
             btnMenuAlertes.setStyle("-fx-text-fill: #c5cae9;");
         }
     }

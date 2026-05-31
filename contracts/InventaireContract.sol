@@ -23,7 +23,7 @@ contract InventaireContract {
     mapping(string => Product) public products;
     Transaction[] public transactions;
     
-    event ProductAdded(string reference, string name);
+    event ProductAdded(string productRef, string name);
     event TransactionRecorded(string transactionId, string productReference, string transactionType, uint256 quantity);
 
     function addProduct(string memory _reference, string memory _name, string memory _description, uint256 _price) public {
